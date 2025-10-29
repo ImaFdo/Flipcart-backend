@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const Product = require("./models/Product");
 
 const bcryptjs = require("bcrypt");
 
@@ -19,7 +20,7 @@ const MONGODB_URI =
 mongoose
   .connect(MONGODB_URI)
   .then(() => console.log("MongoDB connection success"))
-  .catch((err) => console.log("connection failed:", err.errmsg));
+  .catch((err) => console.log("connection failed:", err.message));
 
 app.get("/products", async (req, res) => {
   try {
@@ -32,7 +33,7 @@ app.get("/products", async (req, res) => {
 
 app.get("/products/:id", async (req, res) => {
   try {
-    const products = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({
         message: "the items that you were searching for does not exist",
@@ -46,5 +47,5 @@ app.get("/products/:id", async (req, res) => {
 });
 
 app.listen(8080, () => {
-  console.log("server is running 8080");
+  console.log("server is running 8080");
 });
